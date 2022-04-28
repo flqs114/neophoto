@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多个表单项的动态校验 </title>
+        <style type="text/css">
+        body {
+            font-family: "Microsoft Yahei"
+        }
+		label,input{
+		display:block;
+		width:300px;
+		}
+        
+        input#submit {
+            border: none;
+            background-color: #2F79BA;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px 20px;
+						margin-top:10px;
+            cursor: pointer;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+        div{
+           margin:5px auto;
+           display: flex;
+           flex-flow: inherit;
+           width: 300px;
+        }
+    		input{
+        	border:1px solid #888;
+		 			padding: 7px;
+    		}
+
+        p {
+            font-size: .8rem;
+            color: #BBBBBB;
+						margin:0;
+        }
+        </style>
+    </head>
+
+    <body>
+        <form action="1.php" method="get" id="form" onsubmit="return isOkForm()">
+            <div>
+                <label for="name">名称</label>
+                <input type="text" id="name" />
+                <p id="name_p">必填，长度为4~16个字符</p>
+            </div>
+            <div>
+                <label for="password">密码</label>
+                <input type="password" id="password" />
+                <p id='password_p'>请输入密码</p>
+            </div>
+            <div>
+                <label for="password_confirm">密码确认</label>
+                <input type="password" id="password_confirm" />
+                <p id="password_confirm_p">再次输入相同的密码</p>
+            </div>
+            <div>
+                <label for="email">邮箱</label>
+                <input type="text" id="email" />
+                <p id="email_p">输入您的邮箱</p>
+            </div>
+
+
+
+            <div>
+                <label for="url1" id="url1">按时大大</label>
+                <input type="text" id="url2" />
+                <p id="url_p">输入您的url</p>
+            </div>
+
+
+
+
+            <div>
+                <label for="phone_number">手机</label>
+                <input type="text" id="phone_number" />
+                <p id="phone_number_p">输入您的手机号码</p>
+            <input type="submit" id="submit" value="提交" />
+            </div>
+        </form>
+        <script>
+            let name = document.getElementById('name')
+            let password = document.getElementById('password')
+            let password_confirm = document.getElementById('password_confirm')
+            let email = document.getElementById('email')
+            let phone_number = document.getElementById('phone_number')
+
+            name.addEventListener("blur",function(){
+                if (this.value.length > 16 || this.value.length < 4) {
+                    let nn = document.getElementById("name_p")
+                    nn.innerHTML = "!长度只能为4-16个字符！"
+                    nn.style.color = "red"
+                    name.style="border-color:red"
+                    }
+                else {
+                    document.getElementById("name_p").innerHTML = "必填，长度为4~16个字符"
+                    document.getElementById("name_p").style.color = "gray"
+                    name.style="border-color:gray"
+                    }
+            })
+            //
+            password.addEventListener("blur",function(){
+                if (this.value == "") {
+                    console.log("0")
+                    let nn = document.getElementById("password_p")
+                    nn.innerHTML = "!请输入密码！"
+                    nn.style.color = "red"
+                    password.style="border-color:red"
+                    }
+                else {
+                    document.getElementById("password_p").innerHTML = "请输入密码"
+                    document.getElementById("password_p").style.color = "gray"
+                    password.style="border-color:gray"
+                    }
+            })
+            //
+            password_confirm.addEventListener("blur",function(){
+                if (this.value != password.value) {
+                    console.log("0")
+                    let nn = document.getElementById("password_confirm_p")
+                    nn.innerHTML = "!密码不相同！"
+                    nn.style.color = "red"
+                    password_confirm.style="border-color:red"
+                    }
+                else {
+                    document.getElementById("password_confirm_p").innerHTML = "再次输入相同的密码"
+                    document.getElementById("password_confirm_p").style.color = "gray"
+                    password_confirm.style="border-color:gray"
+                    }
+            })
+            //
+            email.addEventListener("blur", function () {
+                var reg=/^[a-z0-9]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/;
+                if (reg.test(this.value)) {
+                    document.getElementById("email_p").innerHTML = "邮箱格式正确"
+                    document.getElementById("email_p").style.color = "gray"
+                    email.style="border-color:gray"
+                    }
+                else {
+                    let nn = document.getElementById("email_p")
+                    nn.innerHTML = "!邮箱格式不正确！"
+                    nn.style.color = "red"
+                    email.style="border-color:red"
+                    }
+            })
+            //
+            phone_number.addEventListener("blur", function () {
+                var reg=/^1[3|4|5|7|8][0-9]\d{8}$/
+                if (reg.test(this.value)) {
+                    document.getElementById("phone_number_p").innerHTML = "电话号码格式正确"
+                    document.getElementById("phone_number_p").style.color = "gray"
+                    phone_number.style="border-color:gray"
+                    }
+                else {
+                    let nn = document.getElementById("phone_number_p")
+                    nn.innerHTML = "!电话号码格式不正确！"
+                    nn.style.color = "red"
+                    phone_number.style="border-color:red"
+                    }
+            })
+
+            ///////
+            function isOkForm() {
+                var isOk = true
+                var reg1=/^[a-z0-9]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/;
+                var reg2=/^1[3|4|5|7|8][0-9]\d{8}$/
+
+                if (name.value.length > 16 || name.value.length < 4) {
+                    alert("姓名长度只能为4-16个字符")
+                    isOk=false
+                }
+                if (password.value == "") {
+                    alert("请输入密码")
+                    isOk=false
+                }
+                if (password_confirm.value != password.value) {
+                    isOk = false
+                    alert("密码不相同")
+                }
+                if (!reg1.test(email.value)) {
+                    isOk = false
+                    alert("邮箱格式不正确")
+                }
+                if (!reg2.test(phone_number.value)) {
+                    isOk = false
+                    alert("电话号码格式不正确")
+                }
+                return isOk
+            }
+            
+            document.getElementById("url1").innerHTML = window.location.href
+        </script>
+
+    </body>
+
+</html>
